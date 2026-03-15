@@ -42,7 +42,7 @@
    - `MONGODB_URI` = your Atlas connection string
    - `JWT_SECRET` = a long random string (e.g. generate one: `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`)
    - Optional (for emails): `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASSWORD`, `SMTP_FROM`
-7. **Create Web Service**. Render will build and deploy. Note the URL, e.g. `https://ev-charging-api.onrender.com`.
+7. **Create Web Service**. Render will build and deploy. Note the URL, e.g. `https://ev-charging-api-euv0.onrender.com`.
 
 **Free tier note:** The service may **spin down after ~15 minutes** of no traffic. The first request after that can take 30–60 seconds (cold start). After that it stays warm for a while.
 
@@ -63,7 +63,7 @@ cd backend && npm run seed
    - **Build Command:** `npm run build`
    - **Output Directory:** `dist`
 4. **Environment Variables** (add):
-   - `VITE_API_URL` = your Render API URL **including** `/api`, e.g. `https://ev-charging-api.onrender.com/api`
+   - `VITE_API_URL` = your Render API URL **including** `/api`, e.g. `https://ev-charging-api-euv0.onrender.com/api`
 5. **Deploy**. Vercel will build and give you a URL like `https://your-project.vercel.app`.
 
 The web app will call the backend at `VITE_API_URL` for all `/api` requests.
@@ -77,7 +77,7 @@ In the React Native app, update the API base URL so it points to your **live bac
 - **File:** `mobile/src/services/api.js`
 - Set:
   ```javascript
-  const API_BASE = 'https://ev-charging-api.onrender.com/api';  // your Render URL + /api
+  const API_BASE = 'https://ev-charging-api-euv0.onrender.com/api';  // your Render URL + /api
   ```
   Or use a config / env so you can switch between dev and prod.
 
@@ -88,7 +88,7 @@ In the React Native app, update the API base URL so it points to your **live bac
 - [ ] MongoDB Atlas cluster created; user and network access set; MONGODB_URI copied.
 - [ ] Render: Web Service created from `backend`, env vars set (MONGODB_URI, JWT_SECRET, optional SMTP).
 - [ ] Render backend URL works: open `https://YOUR-RENDER-URL/health` → `{"status":"ok"}`.
-- [ ] Vercel: Project created from repo with Root Directory `web`; `VITE_API_URL` set to `https://YOUR-RENDER-URL/api`.
+- [ ] Vercel: Project created from repo with Root Directory `web`; `VITE_API_URL` set to `https://ev-charging-api-euv0.onrender.com/api`.
 - [ ] Partner web app on Vercel: login/register and API calls work.
 - [ ] Mobile: `api.js` (or config) updated to use Render API URL for production builds.
 

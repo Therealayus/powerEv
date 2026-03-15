@@ -1,6 +1,6 @@
 /**
  * Centralized API client - attaches JWT from localStorage for partner routes
- * In production (Vercel), set VITE_API_URL to your backend URL + /api (e.g. https://ev-charging-api.onrender.com/api)
+ * In production (Vercel), set VITE_API_URL to your backend URL + /api (e.g. https://ev-charging-api-euv0.onrender.com/api)
  */
 import axios from 'axios';
 

@@ -8,15 +8,18 @@ const nodemailer = require('nodemailer');
 const hasSmtpConfig = () =>
   process.env.SMTP_USER && process.env.SMTP_PASSWORD && process.env.SMTP_USER.trim() !== '' && process.env.SMTP_PASSWORD.trim() !== '';
 
+const port = Number(process.env.SMTP_PORT) || 587;
 const transporter = hasSmtpConfig()
   ? nodemailer.createTransport({
       host: process.env.SMTP_HOST || 'smtp.gmail.com',
-      port: Number(process.env.SMTP_PORT) || 587,
-      secure: process.env.SMTP_SECURE === 'true',
+      port,
+      secure: process.env.SMTP_SECURE === 'true' || port === 465,
+      requireTLS: port === 587,
       auth: {
         user: process.env.SMTP_USER,
         pass: process.env.SMTP_PASSWORD,
       },
+      // Gmail: use App Password (Google Account → Security → 2-Step Verification → App passwords)
     })
   : null;
 
@@ -38,14 +41,13 @@ async function sendMail(options) {
   };
   try {
     const info = await transporter.sendMail(mail);
-    if (process.env.NODE_ENV !== 'production') {
-      console.log('[SMTP] Sent:', options.subject, '→', options.to);
-    }
+    console.log('[SMTP] Sent:', options.subject, '→', options.to);
     return info;
   } catch (err) {
     console.error('[SMTP] Send failed:', err.message);
     if (err.response) console.error('[SMTP] Server response:', err.response);
     if (err.code) console.error('[SMTP] Code:', err.code);
+    if (err.command) console.error('[SMTP] Command:', err.command);
     throw err;
   }
 }

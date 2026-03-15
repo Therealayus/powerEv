@@ -7,6 +7,8 @@
 | **Global** | ayus.gupta@clavis.digital | Ayush Gupta | All repos except where overridden |
 | **This repo (Power Delivery)** | ayushgupta2429@gmail.com | Ayush | Only this folder |
 
+**GitHub push for this repo:** Remote `origin` is set to `https://Therealayus@github.com/Therealayus/powerEv.git`. When you push, Git will prompt for the password (use a [Personal Access Token](https://github.com/settings/tokens) for the **Therealayus** account). This does not change your global Git config; other repos keep using your existing credentials.
+
 So in **Power Delivery** your commits use **Ayush / ayushgupta2429@gmail.com**. In any other repo (without local config), commits use **Ayush Gupta / ayus.gupta@clavis.digital**.
 
 ---

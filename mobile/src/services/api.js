@@ -4,8 +4,8 @@
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-// Android emulator: 10.0.2.2. Physical device: use your PC's LAN IP (e.g. 192.168.1.x). iOS sim: localhost.
-const API_BASE = 'http://10.0.2.2:5000/api';
+// Production: Render backend. For local dev use http://10.0.2.2:5000/api (emulator) or your PC IP.
+const API_BASE = 'https://ev-charging-api-euv0.onrender.com/api';
 
 const api = axios.create({
   baseURL: API_BASE,
@@ -58,7 +58,7 @@ export const getTerms = () => api.get('/terms');
 /** Base URL of the API server (no /api). Use for profile photo URLs: getUploadBase() + profilePhoto */
 export const getUploadBase = () => {
   const base = api.defaults.baseURL || '';
-  return base.replace(/\/api\/?$/, '') || 'http://10.0.2.2:5000';
+  return base.replace(/\/api\/?$/, '') || 'https://ev-charging-api-euv0.onrender.com';
 };
 
 export const setBaseURL = (url) => {

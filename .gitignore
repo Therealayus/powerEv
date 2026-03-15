@@ -1,10 +1,37 @@
+# Dependencies
 node_modules/
+backend/node_modules/
+web/node_modules/
+mobile/node_modules/
+
+# Env and secrets (never commit)
 .env
-.cursor/
+**/.env
+.env.local
+.env.*.local
+
+# Build / output
+web/dist/
 backend/uploads/
 *.log
-backend/node_modules/
-mobile/node_modules/
+
+# IDE / editor
+.cursor/
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Mobile
 mobile/android/build/
+mobile/android/app/build/
 mobile/ios/build/
 mobile-native-temp/
+*.apk
+*.aab
+*.ipa
