@@ -2,7 +2,7 @@
 
 Use this key for **react-native-maps** on Android and iOS.
 
-**Key:** `AIzaSyAYGD3yJpTg4zAmurIHXV5CCS4ON9ctLZU`
+**Key:** `AIzaSyBFGsh-xHOWhAqtDhzz93yWXRHsyndup40`
 
 **Security:** In Google Cloud Console, restrict this key to your app (Android package name / iOS bundle ID) and enable only Maps SDK for Android and Maps SDK for iOS.
 
@@ -18,7 +18,7 @@ When you have the `android/` folder (e.g. after `npx react-native init`):
    ```xml
    <?xml version="1.0" encoding="utf-8"?>
    <resources>
-       <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAYGD3yJpTg4zAmurIHXV5CCS4ON9ctLZU</string>
+       <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyBFGsh-xHOWhAqtDhzz93yWXRHsyndup40</string>
    </resources>
    ```
 
@@ -31,7 +31,7 @@ When you have the `android/` folder (e.g. after `npx react-native init`):
 ```
 
    If you don’t use the resource file, you can set the key directly:  
-   `android:value="AIzaSyAYGD3yJpTg4zAmurIHXV5CCS4ON9ctLZU"`.
+   `android:value="AIzaSyBFGsh-xHOWhAqtDhzz93yWXRHsyndup40"`.
 
 ---
 
@@ -48,7 +48,7 @@ When you have the `ios/` folder:
 
 3. Inside `application:didFinishLaunchingWithOptions:`, add as the **first line**:
 ```objc
-[GMSServices provideAPIKey:@"AIzaSyAYGD3yJpTg4zAmurIHXV5CCS4ON9ctLZU"];
+[GMSServices provideAPIKey:@"AIzaSyBFGsh-xHOWhAqtDhzz93yWXRHsyndup40"];
 ```
 
 4. Install pods if needed:
