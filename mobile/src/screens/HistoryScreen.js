@@ -1,7 +1,7 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, StyleSheet, FlatList, Alert, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect, useCallback, useMemo } from 'react';
+import { View, Text, StyleSheet, FlatList, Alert } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import { useAuth } from '../context/AuthContext';
 import { useTheme } from '../context/ThemeContext';
 import { getChargingHistory } from '../services/api';
 import { spacing, typography, shadows } from '../theme';
@@ -32,12 +32,9 @@ export default function HistoryScreen() {
   const { colors } = useTheme();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
-  const { logout } = useAuth();
   const styles = useMemo(() => StyleSheet.create({
     container: { flex: 1, backgroundColor: colors.background },
     header: { paddingHorizontal: spacing.lg, paddingTop: spacing.md, paddingBottom: spacing.sm },
-    logoutBtn: { flexDirection: 'row', alignItems: 'center', alignSelf: 'flex-end', paddingVertical: spacing.sm, paddingHorizontal: spacing.md },
-    logoutText: { ...typography.bodySmall, color: colors.textSecondary, marginLeft: spacing.sm },
     list: { padding: spacing.lg, paddingBottom: 100 },
     card: { backgroundColor: colors.card, borderRadius: spacing.cardRadius, padding: spacing.lg, marginBottom: spacing.md, borderWidth: 1, borderColor: colors.border, ...shadows.card },
     cardHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: spacing.md },
@@ -56,20 +53,22 @@ export default function HistoryScreen() {
     emptyText: { ...typography.bodySmall, color: colors.textSecondary, marginTop: spacing.sm },
   }), [colors]);
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const { data } = await getChargingHistory();
-        if (!cancelled) setSessions(data);
-      } catch (e) {
-        if (!cancelled) Alert.alert('Error', 'Could not load history');
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => { cancelled = true; };
+  const fetchHistory = useCallback(async () => {
+    try {
+      const { data } = await getChargingHistory();
+      setSessions(data);
+    } catch (e) {
+      Alert.alert('Error', 'Could not load history');
+    } finally {
+      setLoading(false);
+    }
   }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchHistory();
+    }, [fetchHistory])
+  );
 
   if (loading) return <Loader message="Loading history..." />;
 
@@ -105,10 +104,6 @@ export default function HistoryScreen() {
     <View style={styles.container}>
       <View style={styles.header}>
         <SectionHeader title="Charging history" />
-        <TouchableOpacity style={styles.logoutBtn} onPress={logout} activeOpacity={0.8}>
-          <Icon name="logout" size={20} color={colors.textSecondary} />
-          <Text style={styles.logoutText}>Sign out</Text>
-        </TouchableOpacity>
       </View>
       <FlatList
         data={sessions}

@@ -108,7 +108,7 @@ export default function ProfileScreen({ navigation }) {
     () =>
       StyleSheet.create({
         container: { flex: 1, backgroundColor: colors.background },
-        scroll: { flex: 1 },
+        scroll: { paddingBottom: 48 },
         photoWrap: {
           alignItems: 'center',
           paddingVertical: spacing.xl,
