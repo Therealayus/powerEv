@@ -1,17 +1,26 @@
 import { useState, useEffect } from 'react';
-import { getMySessions } from '../api';
+import { useSearchParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getMySessions, getAdminSessions } from '../api';
+import PartnerFilter from '../components/PartnerFilter';
 
 export default function Sessions() {
+  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const partnerId = searchParams.get('partner') || undefined;
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const isAdmin = user?.role === 'admin';
+  const fetchSessions = isAdmin ? () => getAdminSessions(partnerId) : getMySessions;
+
   useEffect(() => {
-    getMySessions()
+    fetchSessions()
       .then((res) => setSessions(res.data))
       .catch((err) => setError(err.response?.data?.message || err.message || 'Failed to load sessions'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [isAdmin, partnerId]);
 
   const formatDuration = (start, end) => {
     if (!start || !end) return '—';
@@ -35,8 +44,15 @@ export default function Sessions() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white mb-2">Charging sessions</h1>
-      <p className="text-slate-400 text-sm mb-8">Completed sessions at your stations</p>
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-white mb-2">Charging sessions</h1>
+          <p className="text-slate-400 text-sm">
+            {isAdmin ? (partnerId ? 'Sessions for selected partner' : 'All completed sessions') : 'Completed sessions at your stations'}
+          </p>
+        </div>
+        {isAdmin && <PartnerFilter />}
+      </div>
 
       {sessions.length > 0 && (
         <div className="bg-card rounded-card border border-border p-6 mb-8 shadow-lg">

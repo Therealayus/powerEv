@@ -1,19 +1,27 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { getDashboard } from '../api';
+import { Link, useSearchParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getDashboard, getAdminDashboard } from '../api';
 import StatCard from '../components/StatCard';
+import PartnerFilter from '../components/PartnerFilter';
 
 export default function Dashboard() {
+  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const partnerId = searchParams.get('partner') || undefined;
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
+  const isAdmin = user?.role === 'admin';
+  const fetchDashboard = isAdmin ? () => getAdminDashboard(partnerId) : getDashboard;
+
   useEffect(() => {
-    getDashboard()
+    fetchDashboard()
       .then((res) => setData(res.data))
       .catch((err) => setError(err.response?.data?.message || err.message || 'Failed to load dashboard'))
       .finally(() => setLoading(false));
-  }, []);
+  }, [isAdmin, partnerId]);
 
   if (loading) {
     return (
@@ -27,8 +35,15 @@ export default function Dashboard() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-white mb-2">Dashboard</h1>
-      <p className="text-slate-400 text-sm mb-8">Overview of your stations and revenue</p>
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
+        <div>
+          <h1 className="text-2xl font-bold text-white mb-2">Dashboard</h1>
+          <p className="text-slate-400 text-sm">
+            {isAdmin ? (partnerId ? 'Partner view' : 'Platform overview') : 'Overview of your stations and revenue'}
+          </p>
+        </div>
+        {isAdmin && <PartnerFilter />}
+      </div>
 
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <StatCard label="Stations" value={data.stationCount} gradient="linear-gradient(135deg, #22C55E, #16A34A)" />

@@ -24,8 +24,8 @@ export default function VerifyEmail() {
     setLoading(true);
     try {
       const { data } = await verifyEmail(email.trim(), otp.trim());
-      if (data.user?.role !== 'partner') {
-        setError('Partner account required. Please register as a partner.');
+      if (data.user?.role !== 'partner' && data.user?.role !== 'admin') {
+        setError('Partner or admin account required.');
         setLoading(false);
         return;
       }

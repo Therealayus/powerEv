@@ -1,7 +1,13 @@
 import { useState, useEffect } from 'react';
-import { getMyStations, createStation, updateStation } from '../api';
+import { useSearchParams } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { getMyStations, getAdminStations, createStation, updateStation } from '../api';
+import PartnerFilter from '../components/PartnerFilter';
 
 export default function Stations() {
+  const { user } = useAuth();
+  const [searchParams] = useSearchParams();
+  const partnerId = searchParams.get('partner') || undefined;
   const [stations, setStations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -16,8 +22,10 @@ export default function Stations() {
     totalChargers: '4',
   });
 
+  const isAdmin = user?.role === 'admin';
   const loadStations = () => {
-    getMyStations()
+    const api = isAdmin ? getAdminStations(partnerId) : getMyStations();
+    api
       .then((res) => setStations(res.data))
       .catch((err) => setError(err.response?.data?.message || err.message || 'Failed to load stations'))
       .finally(() => setLoading(false));
@@ -25,7 +33,7 @@ export default function Stations() {
 
   useEffect(() => {
     loadStations();
-  }, []);
+  }, [isAdmin, partnerId]);
 
   const openCreate = () => {
     setEditing(null);
@@ -92,17 +100,24 @@ export default function Stations() {
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-8">
+      <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
         <div>
-          <h1 className="text-2xl font-bold text-white">My Stations</h1>
-          <p className="text-slate-400 text-sm mt-1">Manage your charging locations</p>
+          <h1 className="text-2xl font-bold text-white">{isAdmin ? 'Stations' : 'My Stations'}</h1>
+          <p className="text-slate-400 text-sm mt-1">
+            {isAdmin ? (partnerId ? 'Stations for selected partner' : 'All stations') : 'Manage your charging locations'}
+          </p>
         </div>
-        <button
-          onClick={openCreate}
-          className="bg-primary hover:bg-green-600 text-white font-semibold px-5 py-2.5 rounded-xl transition shadow-lg"
-        >
-          Add station
-        </button>
+        <div className="flex items-center gap-4">
+          {isAdmin && <PartnerFilter />}
+          {!isAdmin && (
+            <button
+              onClick={openCreate}
+              className="bg-primary hover:bg-green-600 text-white font-semibold px-5 py-2.5 rounded-xl transition shadow-lg"
+            >
+              Add station
+            </button>
+          )}
+        </div>
       </div>
       {error && (
         <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2 mb-4">
@@ -130,12 +145,14 @@ export default function Stations() {
                   <p className="text-primary font-medium mt-2">${Number(s.pricePerKwh).toFixed(2)}/kWh · {s.availableChargers}/{s.totalChargers} available</p>
                 </div>
               </div>
-              <button
-                onClick={() => openEdit(s)}
-                className="text-accent hover:text-white hover:bg-accent/20 px-4 py-2 rounded-xl text-sm font-medium transition"
-              >
-                Edit
-              </button>
+              {!isAdmin && (
+                <button
+                  onClick={() => openEdit(s)}
+                  className="text-accent hover:text-white hover:bg-accent/20 px-4 py-2 rounded-xl text-sm font-medium transition"
+                >
+                  Edit
+                </button>
+              )}
             </div>
           ))
         )}

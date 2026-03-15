@@ -37,11 +37,12 @@ exports.getPartners = async (req, res) => {
 };
 
 /**
- * GET /api/admin/stations - list all stations (all partners)
+ * GET /api/admin/stations - list all stations; optional ?partnerId= to filter by partner
  */
 exports.getStations = async (req, res) => {
   try {
-    const stations = await Station.find()
+    const filter = req.query.partnerId ? { ownerId: req.query.partnerId } : {};
+    const stations = await Station.find(filter)
       .populate('ownerId', 'name email')
       .sort({ createdAt: -1 })
       .lean();
@@ -59,11 +60,16 @@ exports.getStations = async (req, res) => {
 };
 
 /**
- * GET /api/admin/sessions - list all charging sessions (completed)
+ * GET /api/admin/sessions - list all charging sessions (completed); optional ?partnerId= to filter by partner
  */
 exports.getSessions = async (req, res) => {
   try {
-    const sessions = await ChargingSession.find({ status: 'completed' })
+    const match = { status: 'completed' };
+    if (req.query.partnerId) {
+      const stationIds = await Station.find({ ownerId: req.query.partnerId }).distinct('_id');
+      match.stationId = { $in: stationIds };
+    }
+    const sessions = await ChargingSession.find(match)
       .sort({ endTime: -1 })
       .populate('userId', 'name email')
       .populate('stationId', 'name address')
@@ -75,25 +81,43 @@ exports.getSessions = async (req, res) => {
 };
 
 /**
- * GET /api/admin/dashboard - platform-wide stats
+ * GET /api/admin/dashboard - platform-wide stats; optional ?partnerId= to filter by partner
  */
 exports.getDashboard = async (req, res) => {
   try {
-    const [userCount, partnerCount, stationCount, sessions, totalRevenue] = await Promise.all([
-      User.countDocuments({ role: 'user' }),
-      User.countDocuments({ role: 'partner' }),
-      Station.countDocuments(),
-      ChargingSession.find({ status: 'completed' }).sort({ endTime: -1 }).limit(10).populate('userId', 'name email').populate('stationId', 'name').lean(),
-      ChargingSession.aggregate([
-        { $match: { status: 'completed' } },
-        { $group: { _id: null, total: { $sum: '$cost' } } },
-      ]),
-    ]);
-    res.json({
+    const partnerId = req.query.partnerId;
+    let stationFilter = {};
+    let sessionMatch = { status: 'completed' };
+    if (partnerId) {
+      const stationIds = await Station.find({ ownerId: partnerId }).distinct('_id');
+      stationFilter = { _id: { $in: stationIds } };
+      sessionMatch.stationId = { $in: stationIds };
+    }
+    const [
       userCount,
       partnerCount,
       stationCount,
-      totalRevenue: Math.round((totalRevenue[0]?.total ?? 0) * 100) / 100,
+      sessionCount,
+      sessions,
+      totalRevenue,
+    ] = await Promise.all([
+      partnerId ? Promise.resolve(0) : User.countDocuments({ role: 'user' }),
+      partnerId ? Promise.resolve(1) : User.countDocuments({ role: 'partner' }),
+      Station.countDocuments(partnerId ? { ownerId: partnerId } : {}),
+      ChargingSession.countDocuments(sessionMatch),
+      ChargingSession.find(sessionMatch).sort({ endTime: -1 }).limit(10).populate('userId', 'name email').populate('stationId', 'name').lean(),
+      ChargingSession.aggregate([
+        { $match: sessionMatch },
+        { $group: { _id: null, total: { $sum: '$cost' } } },
+      ]),
+    ]);
+    const revenue = totalRevenue[0]?.total ?? 0;
+    res.json({
+      userCount: partnerId ? undefined : userCount,
+      partnerCount: partnerId ? undefined : partnerCount,
+      stationCount,
+      sessionCount,
+      totalRevenue: Math.round(revenue * 100) / 100,
       recentSessions: sessions,
     });
   } catch (error) {

@@ -44,7 +44,14 @@ export const getMySessions = () => api.get('/partner/sessions');
 // Terms (public read)
 export const getTerms = () => api.get('/terms');
 
-// Admin only
+// Admin only (optional partnerId to filter by partner)
+export const getPartners = () => api.get('/admin/partners');
+export const getAdminDashboard = (partnerId) =>
+  api.get('/admin/dashboard', { params: partnerId ? { partnerId } } : {});
+export const getAdminStations = (partnerId) =>
+  api.get('/admin/stations', { params: partnerId ? { partnerId } } : {});
+export const getAdminSessions = (partnerId) =>
+  api.get('/admin/sessions', { params: partnerId ? { partnerId } } : {});
 export const updateTerms = (content) => api.put('/admin/terms', { content });
 
 export default api;
