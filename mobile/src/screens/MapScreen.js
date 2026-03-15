@@ -198,6 +198,7 @@ export default function MapScreen({ navigation }) {
         Alert.alert('Location', 'Allow location access to center the map on you.');
         return;
       }
+      // Use network/cell first (faster); accept cached position up to 2 min to avoid timeout
       Geolocation.getCurrentPosition(
         (position) => {
           const { latitude, longitude } = position.coords;
@@ -211,8 +212,12 @@ export default function MapScreen({ navigation }) {
             mapRef.current.animateToRegion(region, 500);
           }
         },
-        (err) => Alert.alert('Location', err.message || 'Could not get your location.'),
-        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+        (err) => Alert.alert('Location', err.message || 'Could not get your location. Turn on device location (GPS/Wi‑Fi) and try again.'),
+        {
+          enableHighAccuracy: false,  // false = faster (network/cell); true = GPS, often slower and can timeout
+          timeout: 25000,              // 25 seconds
+          maximumAge: 120000,          // accept cached position up to 2 minutes
+        }
       );
     });
   };
