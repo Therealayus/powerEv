@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="react_native_dev_server_port">8081</integer>
+    <integer name="react_native_inspector_proxy_port">8081</integer>
+    <string name="app_name">EV Charging</string>
+    <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyAYGD3yJpTg4zAmurIHXV5CCS4ON9ctLZU</string>
+    <style name="AppTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        
+        <item name="android:editTextBackground">@drawable/rn_edit_text_material</item>
+    </style>
+</resources>

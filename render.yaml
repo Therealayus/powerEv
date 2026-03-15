@@ -1,0 +1,16 @@
+# Render Blueprint - deploy from repo root
+# New → Blueprint → connect repo → set MONGODB_URI (and optional SMTP_*) in dashboard
+services:
+  - type: web
+    name: ev-charging-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

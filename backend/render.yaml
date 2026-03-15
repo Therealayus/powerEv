@@ -1,0 +1,16 @@
+# Render Blueprint - optional one-click deploy
+# Use if you deploy the whole repo and want Render to run the backend from /backend
+services:
+  - type: web
+    name: ev-charging-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true

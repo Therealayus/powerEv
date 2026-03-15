@@ -1,0 +1,6 @@
+{
+  "name": "ev-charging-app",
+  "version": "1.0.0",
+  "private": true,
+  "description": "EV Charging Mobile Application - Monorepo"
+}
