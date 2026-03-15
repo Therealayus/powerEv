@@ -44,7 +44,7 @@ export default function PartnerDetail() {
         </div>
         <div className="bg-card rounded-card border border-border p-6">
           <p className="text-slate-400 text-sm">Total revenue</p>
-          <p className="text-2xl font-bold text-primary mt-1">${Number(totalRevenue).toFixed(2)}</p>
+          <p className="text-2xl font-bold text-primary mt-1">₹{Number(totalRevenue).toFixed(2)}</p>
         </div>
       </div>
 
@@ -68,7 +68,7 @@ export default function PartnerDetail() {
                   <td className="px-6 py-4 text-white">{u.name}</td>
                   <td className="px-6 py-4 text-slate-400 text-sm">{u.email}</td>
                   <td className="px-6 py-4 text-white">{u.sessionCount}</td>
-                  <td className="px-6 py-4 text-primary font-medium">${Number(u.revenue).toFixed(2)}</td>
+                  <td className="px-6 py-4 text-primary font-medium">₹{Number(u.revenue).toFixed(2)}</td>
                 </tr>
               ))}
             </tbody>

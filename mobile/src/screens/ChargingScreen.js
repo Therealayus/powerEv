@@ -101,7 +101,7 @@ export default function ChargingScreen() {
           value={(session.unitsConsumed || 0).toFixed(2)}
           unit="kWh"
         />
-        <ChargingCard icon="attach-money" label="Cost" value={`$${(session.cost || 0).toFixed(2)}`} />
+        <ChargingCard icon="currency-rupee" label="Cost" value={`₹${(session.cost || 0).toFixed(2)}`} />
         <ChargingCard icon="speed" label="Speed" value={powerKw} unit="kW" />
       </View>
       <View style={styles.stopBtnWrap}>

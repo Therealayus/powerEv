@@ -57,7 +57,7 @@ async function sendSessionComplete(to, { stationName, unitsConsumed, cost }) {
     <p style="margin:0 0 20px;font-size:14px;color:${BRAND.textSecondary};">${station}</p>
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:0;">
       ${statRow('Units', `${units} kWh`)}
-      ${statRow('Cost', `$${costStr}`)}
+      ${statRow('Cost', `₹${costStr}`)}
     </table>
     <p style="margin:20px 0 0;font-size:14px;color:${BRAND.textSecondary};">
       Thanks for charging with us.
@@ -66,8 +66,8 @@ async function sendSessionComplete(to, { stationName, unitsConsumed, cost }) {
   return sendMail({
     to,
     subject: `Charging complete at ${stationName}`,
-    text: `Charging session completed.\nStation: ${stationName}\nUnits: ${unitsConsumed} kWh\nCost: $${cost}`,
-    html: wrapEmail(content, { title: `Charging complete at ${stationName}`, preheader: `${unitsConsumed} kWh · $${cost}` }),
+    text: `Charging session completed.\nStation: ${stationName}\nUnits: ${unitsConsumed} kWh\nCost: ₹${cost}`,
+    html: wrapEmail(content, { title: `Charging complete at ${stationName}`, preheader: `${unitsConsumed} kWh · ₹${cost}` }),
   });
 }
 
@@ -84,14 +84,14 @@ async function sendPartnerSessionNotification(to, { stationName, unitsConsumed, 
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin:0;">
       ${statRow('Station', station)}
       ${statRow('Units', `${units} kWh`)}
-      ${statRow('Revenue', `$${costStr}`)}
+      ${statRow('Revenue', `₹${costStr}`)}
     </table>
   `;
   return sendMail({
     to,
     subject: `New charging session at ${stationName}`,
-    text: `A charging session just completed at your station ${stationName}.\nUnits: ${unitsConsumed} kWh\nRevenue: $${cost}`,
-    html: wrapEmail(content, { title: `New session at ${stationName}`, preheader: `+$${cost} revenue` }),
+    text: `A charging session just completed at your station ${stationName}.\nUnits: ${unitsConsumed} kWh\nRevenue: ₹${cost}`,
+    html: wrapEmail(content, { title: `New session at ${stationName}`, preheader: `+₹${cost} revenue` }),
   });
 }
 

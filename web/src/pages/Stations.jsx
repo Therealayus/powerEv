@@ -186,7 +186,7 @@ export default function Stations() {
                   {isAdmin && s.ownerId && (
                     <p className="text-slate-500 text-xs mt-1">Partner: {s.ownerId?.name || s.ownerId?.email || '—'}</p>
                   )}
-                  <p className="text-primary font-medium mt-2">${Number(s.pricePerKwh).toFixed(2)}/kWh · {s.availableChargers}/{s.totalChargers} available</p>
+                  <p className="text-primary font-medium mt-2">₹{Number(s.pricePerKwh).toFixed(2)}/kWh · {s.availableChargers}/{s.totalChargers} available</p>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -280,7 +280,7 @@ export default function Stations() {
               <input
                 type="number"
                 step="0.01"
-                placeholder="Price per kWh"
+                placeholder="Price per kWh (₹)"
                 value={form.pricePerKwh}
                 onChange={(e) => setForm((f) => ({ ...f, pricePerKwh: e.target.value }))}
                 className="w-full bg-background border border-border rounded-xl px-4 py-3 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-primary"

@@ -31,7 +31,7 @@ export default function StationCard({ name, address, pricePerKwh, availableCharg
       <Text style={[styles.address, { color: colors.textSecondary }]} numberOfLines={2}>
         {address}
       </Text>
-      <Text style={[styles.price, { color: colors.primary }]}>${Number(pricePerKwh).toFixed(2)}/kWh</Text>
+      <Text style={[styles.price, { color: colors.primary }]}>₹{Number(pricePerKwh).toFixed(2)}/kWh</Text>
     </TouchableOpacity>
   );
 }

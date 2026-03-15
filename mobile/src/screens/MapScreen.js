@@ -261,7 +261,7 @@ export default function MapScreen({ navigation }) {
               key={s._id}
               coordinate={{ latitude: s.latitude, longitude: s.longitude }}
               title={s.name}
-              description={`${s.availableChargers}/${s.totalChargers} available · $${s.pricePerKwh}/kWh`}
+              description={`${s.availableChargers}/${s.totalChargers} available · ₹${s.pricePerKwh}/kWh`}
               tracksViewChanges={false}
               onPress={() => navigation.navigate('StationDetail', { stationId: s._id })}
               onCalloutPress={() => navigation.navigate('StationDetail', { stationId: s._id })}
@@ -339,7 +339,7 @@ export default function MapScreen({ navigation }) {
                 <View style={styles.stationRowText}>
                   <Text style={styles.stationRowName} numberOfLines={1}>{item.name}</Text>
                   <Text style={styles.stationRowMeta} numberOfLines={1}>
-                    {item.availableChargers}/{item.totalChargers} · ${item.pricePerKwh}/kWh
+                    {item.availableChargers}/{item.totalChargers} · ₹{item.pricePerKwh}/kWh
                   </Text>
                 </View>
                 <Icon name="chevron-right" size={20} color={colors.textSecondary} />

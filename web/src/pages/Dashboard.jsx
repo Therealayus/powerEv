@@ -50,7 +50,7 @@ export default function Dashboard() {
         <StatCard label="Total sessions" value={data.sessionCount} gradient="linear-gradient(135deg, #3B82F6, #2563EB)" />
         <StatCard
           label="Total revenue"
-          value={`$${data.totalRevenue.toFixed(2)}`}
+          value={`₹${data.totalRevenue.toFixed(2)}`}
           valueClassName="text-primary"
           gradient="linear-gradient(135deg, #22C55E, #15803D)"
         />
@@ -79,7 +79,7 @@ export default function Dashboard() {
                   </div>
                   <div className="flex items-center gap-6 text-sm">
                     <span className="text-slate-300">{(s.unitsConsumed ?? 0).toFixed(2)} kWh</span>
-                    <span className="text-primary font-semibold">${(s.cost ?? 0).toFixed(2)}</span>
+                    <span className="text-primary font-semibold">₹{(s.cost ?? 0).toFixed(2)}</span>
                   </div>
                 </div>
               ))}

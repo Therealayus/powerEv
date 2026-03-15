@@ -57,7 +57,7 @@ export default function Sessions() {
       {sessions.length > 0 && (
         <div className="bg-card rounded-card border border-border p-6 mb-8 shadow-lg">
           <p className="text-slate-400 text-sm">Total revenue (this list)</p>
-          <p className="text-3xl font-bold text-primary mt-1">${totalRevenue.toFixed(2)}</p>
+          <p className="text-3xl font-bold text-primary mt-1">₹{totalRevenue.toFixed(2)}</p>
         </div>
       )}
 
@@ -93,7 +93,7 @@ export default function Sessions() {
                   </div>
                   <div>
                     <p className="text-slate-400">Revenue</p>
-                    <p className="text-primary font-semibold">${(s.cost ?? 0).toFixed(2)}</p>
+                    <p className="text-primary font-semibold">₹{(s.cost ?? 0).toFixed(2)}</p>
                   </div>
                   <div>
                     <p className="text-slate-400">Duration</p>

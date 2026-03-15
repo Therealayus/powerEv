@@ -5,7 +5,8 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
-    "start": "react-native start"
+    "start": "react-native start",
+    "build:release": "cd android && .\\gradlew.bat assembleRelease"
   },
   "dependencies": {
     "@react-native-community/geolocation": "^3.2.1",
