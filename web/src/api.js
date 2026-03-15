@@ -48,11 +48,11 @@ export const getTerms = () => api.get('/terms');
 export const getPartners = () => api.get('/admin/partners');
 export const getPartnerById = (id) => api.get(`/admin/partners/${id}`);
 export const getAdminDashboard = (partnerId) =>
-  api.get('/admin/dashboard', { params: partnerId ? { partnerId } } : {});
+  api.get('/admin/dashboard', partnerId ? { params: { partnerId } } : {});
 export const getAdminStations = (partnerId) =>
-  api.get('/admin/stations', { params: partnerId ? { partnerId } } : {});
+  api.get('/admin/stations', partnerId ? { params: { partnerId } } : {});
 export const getAdminSessions = (partnerId) =>
-  api.get('/admin/sessions', { params: partnerId ? { partnerId } } : {});
+  api.get('/admin/sessions', partnerId ? { params: { partnerId } } : {});
 export const createAdminStation = (data) => api.post('/admin/stations', data);
 export const updateAdminStation = (id, data) => api.put(`/admin/stations/${id}`, data);
 export const updateTerms = (content) => api.put('/admin/terms', { content });
