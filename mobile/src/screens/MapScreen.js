@@ -9,6 +9,7 @@ import {
   FlatList,
   useWindowDimensions,
   Platform,
+  PermissionsAndroid,
 } from 'react-native';
 import { GestureDetector, Gesture } from 'react-native-gesture-handler';
 import Animated, {
@@ -19,6 +20,7 @@ import Animated, {
   Extrapolation,
 } from 'react-native-reanimated';
 import MapView, { Marker } from 'react-native-maps';
+import Geolocation from '@react-native-community/geolocation';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { getStations } from '../services/api';
 import Loader from '../components/Loader';
@@ -97,6 +99,16 @@ export default function MapScreen({ navigation }) {
     stationRowText: { flex: 1 },
     stationRowName: { ...typography.body, color: colors.text, fontWeight: '600' },
     stationRowMeta: { ...typography.caption, color: colors.textSecondary, marginTop: 2 },
+    stationMarker: {
+      width: 44,
+      height: 44,
+      borderRadius: 22,
+      alignItems: 'center',
+      justifyContent: 'center',
+      borderWidth: 3,
+      borderColor: '#FFFFFF',
+      ...shadows.float,
+    },
   }), [colors]);
 
   const sheetHeight = height * 0.92;
@@ -167,10 +179,42 @@ export default function MapScreen({ navigation }) {
     ),
   }));
 
-  const goToMyLocation = () => {
-    if (mapRef.current) {
-      mapRef.current.animateToRegion(DEFAULT_REGION, 400);
+  const requestLocationPermission = async () => {
+    if (Platform.OS !== 'android') return true;
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        { title: 'Location', message: 'EV Charging needs your location to show you on the map and find nearby stations.' }
+      );
+      return granted === PermissionsAndroid.RESULTS.GRANTED;
+    } catch {
+      return false;
     }
+  };
+
+  const goToMyLocation = () => {
+    requestLocationPermission().then((ok) => {
+      if (!ok) {
+        Alert.alert('Location', 'Allow location access to center the map on you.');
+        return;
+      }
+      Geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+          const region = {
+            latitude,
+            longitude,
+            latitudeDelta: 0.012,
+            longitudeDelta: 0.012,
+          };
+          if (mapRef.current) {
+            mapRef.current.animateToRegion(region, 500);
+          }
+        },
+        (err) => Alert.alert('Location', err.message || 'Could not get your location.'),
+        { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }
+      );
+    });
   };
 
   const fitAllStations = () => {
@@ -202,19 +246,27 @@ export default function MapScreen({ navigation }) {
         onRegionChangeComplete={setRegion}
         mapType="standard"
         customMapStyle={customMapStyle}
-        showsUserLocation={false}
+        showsUserLocation={true}
+        showsMyLocationButton={false}
       >
-        {stations.map((s) => (
-          <Marker
-            key={s._id}
-            coordinate={{ latitude: s.latitude, longitude: s.longitude }}
-            title={s.name}
-            description={`${s.availableChargers}/${s.totalChargers} available · $${s.pricePerKwh}/kWh`}
-            pinColor={markerColors[s.markerColor] || colors.primary}
-            onPress={() => navigation.navigate('StationDetail', { stationId: s._id })}
-            onCalloutPress={() => navigation.navigate('StationDetail', { stationId: s._id })}
-          />
-        ))}
+        {stations.map((s) => {
+          const markerColor = markerColors[s.markerColor] || colors.primary;
+          return (
+            <Marker
+              key={s._id}
+              coordinate={{ latitude: s.latitude, longitude: s.longitude }}
+              title={s.name}
+              description={`${s.availableChargers}/${s.totalChargers} available · $${s.pricePerKwh}/kWh`}
+              tracksViewChanges={false}
+              onPress={() => navigation.navigate('StationDetail', { stationId: s._id })}
+              onCalloutPress={() => navigation.navigate('StationDetail', { stationId: s._id })}
+            >
+              <View style={[styles.stationMarker, { backgroundColor: markerColor }]}>
+                <Icon name="local-gas-station" size={22} color="#FFFFFF" />
+              </View>
+            </Marker>
+          );
+        })}
       </MapView>
 
       {/* Floating search */}

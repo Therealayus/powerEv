@@ -4,6 +4,7 @@ ADDED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml:1:1
 INJECTED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml:1:1-31:12
 INJECTED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml:1:1-31:12
 INJECTED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml:1:1-31:12
+MERGED from [:react-native-community_geolocation] D:\Power Delivery\mobile\node_modules\@react-native-community\geolocation\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-async-storage_async-storage] D:\Power Delivery\mobile\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-gesture-handler] D:\Power Delivery\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-7:12
 MERGED from [:react-native-image-picker] D:\Power Delivery\mobile\node_modules\react-native-image-picker\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:2:1-19:12
@@ -35,8 +36,8 @@ MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\clavis\.
 MERGED from [androidx.appcompat:appcompat:1.6.1] C:\Users\clavis\.gradle\caches\transforms-3\b3627ca143232ec2ceb6e319eb18971d\transformed\appcompat-1.6.1\AndroidManifest.xml:17:1-22:12
 MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\clavis\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:17:1-24:12
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\clavis\.gradle\caches\transforms-3\5b356190bdf4bb7065067fc153a69c6d\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:17:1-24:12
-MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:17:1-44:12
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\clavis\.gradle\caches\transforms-3\633409883f69648a2845fb4670071903\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:2:1-9:12
+MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:17:1-44:12
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\clavis\.gradle\caches\transforms-3\c59a55b27e44a3e0723d16f567fd1d1e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:16:1-24:12
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\d959d636a5c3c409e9c20f4f0e6ae19b\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:2:1-6:12
 MERGED from [com.google.android.gms:play-services-basement:18.1.0] C:\Users\clavis\.gradle\caches\transforms-3\0a7cb7034eac515addf17ce8efdbda3b\transformed\jetified-play-services-basement-18.1.0\AndroidManifest.xml:16:1-26:12
@@ -126,10 +127,10 @@ MERGED from [com.google.android.material:material:1.9.0] C:\Users\clavis\.gradle
 MERGED from [com.google.android.material:material:1.9.0] C:\Users\clavis\.gradle\caches\transforms-3\d3a8a24834f295d8078f18b8298041f7\transformed\material-1.9.0\AndroidManifest.xml:24:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\clavis\.gradle\caches\transforms-3\dd997c22ecb777a9e0898386a3d502a5\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
 MERGED from [androidx.constraintlayout:constraintlayout:2.0.1] C:\Users\clavis\.gradle\caches\transforms-3\dd997c22ecb777a9e0898386a3d502a5\transformed\constraintlayout-2.0.1\AndroidManifest.xml:9:5-20
-MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:36:5-42:19
-MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:36:5-42:19
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\clavis\.gradle\caches\transforms-3\633409883f69648a2845fb4670071903\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\clavis\.gradle\caches\transforms-3\633409883f69648a2845fb4670071903\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:36:5-42:19
+MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:36:5-42:19
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\clavis\.gradle\caches\transforms-3\c59a55b27e44a3e0723d16f567fd1d1e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\clavis\.gradle\caches\transforms-3\c59a55b27e44a3e0723d16f567fd1d1e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:19:5-23:19
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\d959d636a5c3c409e9c20f4f0e6ae19b\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:5:5-20
@@ -210,6 +211,8 @@ uses-sdk
 INJECTED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
 INJECTED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml
 INJECTED from D:\Power Delivery\mobile\android\app\src\main\AndroidManifest.xml
+MERGED from [:react-native-community_geolocation] D:\Power Delivery\mobile\node_modules\@react-native-community\geolocation\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:react-native-community_geolocation] D:\Power Delivery\mobile\node_modules\@react-native-community\geolocation\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Power Delivery\mobile\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-async-storage_async-storage] D:\Power Delivery\mobile\node_modules\@react-native-async-storage\async-storage\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:react-native-gesture-handler] D:\Power Delivery\mobile\node_modules\react-native-gesture-handler\android\build\intermediates\merged_manifest\debug\AndroidManifest.xml:5:5-44
@@ -272,10 +275,10 @@ MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\clavis\.gradle\caches\tr
 MERGED from [androidx.autofill:autofill:1.1.0] C:\Users\clavis\.gradle\caches\transforms-3\38344280fe9342d918737701bd2e1811\transformed\jetified-autofill-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\clavis\.gradle\caches\transforms-3\5b356190bdf4bb7065067fc153a69c6d\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
 MERGED from [androidx.swiperefreshlayout:swiperefreshlayout:1.1.0] C:\Users\clavis\.gradle\caches\transforms-3\5b356190bdf4bb7065067fc153a69c6d\transformed\swiperefreshlayout-1.1.0\AndroidManifest.xml:20:5-22:41
-MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:20:5-44
-MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\clavis\.gradle\caches\transforms-3\633409883f69648a2845fb4670071903\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-location:21.0.1] C:\Users\clavis\.gradle\caches\transforms-3\633409883f69648a2845fb4670071903\transformed\jetified-play-services-location-21.0.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-maps:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\b8f85cf41f2bd96bda89218f783e0e8d\transformed\jetified-play-services-maps-18.0.2\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\clavis\.gradle\caches\transforms-3\c59a55b27e44a3e0723d16f567fd1d1e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-base:18.1.0] C:\Users\clavis\.gradle\caches\transforms-3\c59a55b27e44a3e0723d16f567fd1d1e\transformed\jetified-play-services-base-18.1.0\AndroidManifest.xml:18:5-43
 MERGED from [com.google.android.gms:play-services-tasks:18.0.2] C:\Users\clavis\.gradle\caches\transforms-3\d959d636a5c3c409e9c20f4f0e6ae19b\transformed\jetified-play-services-tasks-18.0.2\AndroidManifest.xml:4:5-43

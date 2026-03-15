@@ -52,14 +52,24 @@ export default function Layout() {
             Sessions
           </NavLink>
           {user?.role === 'admin' && (
-            <NavLink
-              to="/terms"
-              className={({ isActive }) =>
-                `py-3 text-sm font-medium transition ${isActive ? 'text-primary border-b-2 border-primary' : 'text-slate-400 hover:text-white'}`
-              }
-            >
-              Terms & Conditions
-            </NavLink>
+            <>
+              <NavLink
+                to="/partners"
+                className={({ isActive }) =>
+                  `py-3 text-sm font-medium transition ${isActive ? 'text-primary border-b-2 border-primary' : 'text-slate-400 hover:text-white'}`
+                }
+              >
+                Partners
+              </NavLink>
+              <NavLink
+                to="/terms"
+                className={({ isActive }) =>
+                  `py-3 text-sm font-medium transition ${isActive ? 'text-primary border-b-2 border-primary' : 'text-slate-400 hover:text-white'}`
+                }
+              >
+                Terms & Conditions
+              </NavLink>
+            </>
           )}
         </nav>
       </header>

@@ -10,6 +10,8 @@ import Dashboard from './pages/Dashboard';
 import Stations from './pages/Stations';
 import Sessions from './pages/Sessions';
 import TermsEdit from './pages/TermsEdit';
+import PartnersList from './pages/PartnersList';
+import PartnerDetail from './pages/PartnerDetail';
 
 function PrivateRoute({ children }) {
   const { user, loading } = useAuth();
@@ -37,6 +39,8 @@ export default function App() {
         <Route index element={<Dashboard />} />
         <Route path="stations" element={<Stations />} />
         <Route path="sessions" element={<Sessions />} />
+        <Route path="partners" element={<PartnersList />} />
+        <Route path="partners/:id" element={<PartnerDetail />} />
         <Route path="terms" element={<TermsEdit />} />
       </Route>
       <Route path="*" element={<Navigate to="/" replace />} />
