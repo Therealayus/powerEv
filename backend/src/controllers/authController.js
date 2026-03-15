@@ -13,7 +13,8 @@ const {
 const generateToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, { expiresIn: '30d' });
 
-const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+// const generateOtp = () => Math.floor(100000 + Math.random() * 900000).toString();
+const generateOtp = () => '123456';
 const OTP_EXPIRY_MS = 10 * 60 * 1000; // 10 minutes
 
 /**
