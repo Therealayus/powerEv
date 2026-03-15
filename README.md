@@ -1,4 +1,4 @@
-# EV Charging Mobile Application
+# powerEv — EV Charging Mobile Application
 
 A full-stack EV charging app with a React Native CLI frontend and Node.js/MongoDB backend. Modern dark UI with map, station details, live charging dashboard, and session history.
 
