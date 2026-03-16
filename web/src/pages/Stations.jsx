@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getMyStations, getAdminStations, createStation, updateStation, getPartners, createAdminStation, updateAdminStation } from '../api';
 import PartnerFilter from '../components/PartnerFilter';
+import Alert from '../components/Alert';
 
 export default function Stations() {
   const { user } = useAuth();
@@ -164,11 +165,7 @@ export default function Stations() {
           </button>
         </div>
       </div>
-      {error && (
-        <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2 mb-4">
-          {error}
-        </div>
-      )}
+      {error && <Alert type="error" message={error} onDismiss={() => setError('')} className="mb-4" />}
       <div className="grid gap-4">
         {stations.length === 0 ? (
           <div className="bg-card rounded-card border border-border p-8 text-center text-slate-400">

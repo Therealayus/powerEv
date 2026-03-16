@@ -6,12 +6,12 @@ import {
   StyleSheet,
   ScrollView,
   TouchableOpacity,
-  Alert,
   Platform,
   KeyboardAvoidingView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { updateProfile } from '../services/api';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
@@ -20,6 +20,7 @@ const CONNECTOR_OPTIONS = ['', 'Bharat AC', 'Bharat DC', 'CCS 2', 'CHAdeMO', 'Ty
 
 export default function EditProfileScreen({ route, navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const { profile } = route.params || {};
   const [name, setName] = useState(profile?.name ?? '');
   const [phone, setPhone] = useState(profile?.phone ?? '');
@@ -70,7 +71,7 @@ export default function EditProfileScreen({ route, navigation }) {
 
   const handleSave = async () => {
     if (!name.trim()) {
-      Alert.alert('Error', 'Name is required');
+      showAlert('Error', 'Name is required');
       return;
     }
     setSaving(true);
@@ -83,7 +84,7 @@ export default function EditProfileScreen({ route, navigation }) {
       });
       navigation.goBack();
     } catch (e) {
-      Alert.alert('Error', e.response?.data?.message || 'Could not update profile');
+      showAlert('Error', e.response?.data?.message || 'Could not update profile');
     } finally {
       setSaving(false);
     }

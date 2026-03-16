@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { getPartners } from '../api';
+import Alert from '../components/Alert';
 
 export default function PartnersList() {
   const [partners, setPartners] = useState([]);
@@ -21,7 +22,7 @@ export default function PartnersList() {
       </div>
     );
   }
-  if (error) return <div className="text-red-400 bg-red-500/10 rounded-card px-4 py-3">{error}</div>;
+  if (error) return <Alert type="error" message={error} onDismiss={() => setError('')} className="mb-4" />;
 
   return (
     <div>

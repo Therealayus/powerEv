@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { getPartnerById } from '../api';
+import Alert from '../components/Alert';
 
 export default function PartnerDetail() {
   const { id } = useParams();
@@ -22,7 +23,7 @@ export default function PartnerDetail() {
       </div>
     );
   }
-  if (error) return <div className="text-red-400 bg-red-500/10 rounded-card px-4 py-3">{error}</div>;
+  if (error) return <Alert type="error" message={error} onDismiss={() => setError('')} className="mb-4" />;
   if (!data) return null;
 
   const { name, email, stationCount, sessionCount, totalRevenue, users = [] } = data;

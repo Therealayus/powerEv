@@ -7,17 +7,18 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  Alert,
   Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function LoginScreen({ navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -49,14 +50,14 @@ export default function LoginScreen({ navigation }) {
 
   const handleLogin = async () => {
     if (!email.trim() || !password) {
-      Alert.alert('Error', 'Please enter email and password');
+      showAlert('Error', 'Please enter email and password');
       return;
     }
     setLoading(true);
     try {
       await login(email.trim(), password);
     } catch (e) {
-      Alert.alert('Login failed', e.response?.data?.message || e.message || 'Please try again');
+      showAlert('Login failed', e.response?.data?.message || e.message || 'Please try again');
     } finally {
       setLoading(false);
     }

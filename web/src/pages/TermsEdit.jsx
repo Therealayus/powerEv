@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { getTerms, updateTerms } from '../api';
+import Alert from '../components/Alert';
 
 export default function TermsEdit() {
   const [content, setContent] = useState('');
@@ -57,9 +58,12 @@ export default function TermsEdit() {
           {saving ? 'Saving...' : 'Save'}
         </button>
         {message && (
-          <span className={message.startsWith('Failed') ? 'text-red-400' : 'text-green-400'}>
-            {message}
-          </span>
+          <Alert
+            type={message.startsWith('Failed') ? 'error' : 'success'}
+            message={message}
+            onDismiss={() => setMessage(null)}
+            className="flex-1"
+          />
         )}
       </div>
     </div>

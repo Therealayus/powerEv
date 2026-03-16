@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { resetPassword } from '../api';
+import Alert from '../components/Alert';
 
 export default function ResetPassword() {
   const [searchParams] = useSearchParams();
@@ -44,16 +45,8 @@ export default function ResetPassword() {
           <h1 className="text-2xl font-bold text-white mb-2">Set new password</h1>
           <p className="text-slate-400 text-sm mb-6">Enter the code from your email and choose a new password</p>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {success && (
-              <div className="bg-green-500/10 border border-green-500/30 text-green-400 text-sm rounded-lg px-4 py-2">
-                Password reset. Redirecting to sign in...
-              </div>
-            )}
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2">
-                {error}
-              </div>
-            )}
+            {success && <Alert type="success" message="Password reset. Redirecting to sign in..." />}
+            {error && <Alert type="error" message={error} onDismiss={() => setError('')} />}
             <input
               type="email"
               placeholder="Email"

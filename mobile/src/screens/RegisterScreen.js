@@ -7,18 +7,19 @@ import {
   KeyboardAvoidingView,
   Platform,
   TouchableOpacity,
-  Alert,
   ScrollView,
   Image,
 } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function RegisterScreen({ navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -53,11 +54,11 @@ export default function RegisterScreen({ navigation }) {
 
   const handleRegister = async () => {
     if (!name.trim() || !email.trim() || !password) {
-      Alert.alert('Error', 'Please fill name, email and password');
+      showAlert('Error', 'Please fill name, email and password');
       return;
     }
     if (password.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters');
+      showAlert('Error', 'Password must be at least 6 characters');
       return;
     }
     setLoading(true);
@@ -65,7 +66,7 @@ export default function RegisterScreen({ navigation }) {
       const data = await register(name.trim(), email.trim(), password, vehicleType);
       if (data?.email) navigation.navigate('VerifyEmail', { email: data.email });
     } catch (e) {
-      Alert.alert('Registration failed', e.response?.data?.message || e.message || 'Please try again');
+      showAlert('Registration failed', e.response?.data?.message || e.message || 'Please try again');
     } finally {
       setLoading(false);
     }

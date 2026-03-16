@@ -4,7 +4,6 @@ import {
   Text,
   TextInput,
   StyleSheet,
-  Alert,
   TouchableOpacity,
   FlatList,
   useWindowDimensions,
@@ -25,6 +24,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { getStations } from '../services/api';
 import Loader from '../components/Loader';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { spacing, typography, shadows } from '../theme';
 
 const DEFAULT_REGION = {
@@ -73,6 +73,7 @@ const mapStyleLight = [
 
 export default function MapScreen({ navigation }) {
   const { colors, isDark } = useTheme();
+  const { showAlert } = useAlert();
   const markerColors = { green: colors.markerGreen, orange: colors.markerOrange, red: colors.markerRed };
   const customMapStyle = isDark ? mapStyleDark : mapStyleLight;
   const [stations, setStations] = useState([]);
@@ -132,7 +133,7 @@ export default function MapScreen({ navigation }) {
         const { data } = await getStations();
         if (!cancelled) setStations(data);
       } catch (e) {
-        if (!cancelled) Alert.alert('Error', 'Could not load stations. Is the backend running?');
+        if (!cancelled) showAlert('Error', 'Could not load stations. Is the backend running?');
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -195,7 +196,7 @@ export default function MapScreen({ navigation }) {
   const goToMyLocation = () => {
     requestLocationPermission().then((ok) => {
       if (!ok) {
-        Alert.alert('Location', 'Allow location access to center the map on you.');
+        showAlert('Location', 'Allow location access to center the map on you.', 'info');
         return;
       }
       // Use network/cell first (faster); accept cached position up to 2 min to avoid timeout
@@ -212,7 +213,7 @@ export default function MapScreen({ navigation }) {
             mapRef.current.animateToRegion(region, 500);
           }
         },
-        (err) => Alert.alert('Location', err.message || 'Could not get your location. Turn on device location (GPS/Wi‑Fi) and try again.'),
+        (err) => showAlert('Location', err.message || 'Could not get your location. Turn on device location (GPS/Wi‑Fi) and try again.', 'info'),
         {
           enableHighAccuracy: false,  // false = faster (network/cell); true = GPS, often slower and can timeout
           timeout: 25000,              // 25 seconds

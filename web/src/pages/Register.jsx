@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import Alert from '../components/Alert';
 
 export default function Register() {
   const [name, setName] = useState('');
@@ -37,11 +38,7 @@ export default function Register() {
           <h1 className="text-2xl font-bold text-white mb-2">Partner registration</h1>
           <p className="text-slate-400 text-sm mb-6">Create an account to add charging stations</p>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2">
-                {error}
-              </div>
-            )}
+            {error && <Alert type="error" message={error} onDismiss={() => setError('')} />}
             <input
               type="text"
               placeholder="Name"

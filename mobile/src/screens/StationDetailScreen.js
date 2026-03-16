@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
+import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { getStationById, getChargers, startCharging } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { spacing, typography } from '../theme';
 import StationCard from '../components/StationCard';
 import SectionHeader from '../components/SectionHeader';
@@ -11,6 +12,7 @@ import Loader from '../components/Loader';
 
 export default function StationDetailScreen({ route, navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const { stationId } = route.params;
   const [station, setStation] = useState(null);
   const [chargers, setChargers] = useState([]);
@@ -45,7 +47,7 @@ export default function StationDetailScreen({ route, navigation }) {
           setChargers(chargersRes.data);
         }
       } catch (e) {
-        if (!cancelled) Alert.alert('Error', 'Could not load station');
+        if (!cancelled) showAlert('Error', 'Could not load station');
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -57,7 +59,7 @@ export default function StationDetailScreen({ route, navigation }) {
 
   const handleStartCharging = async () => {
     if (!availableCharger) {
-      Alert.alert('No charger available', 'All chargers are in use or offline.');
+      showAlert('No charger available', 'All chargers are in use or offline.', 'info');
       return;
     }
     setStarting(true);
@@ -65,7 +67,7 @@ export default function StationDetailScreen({ route, navigation }) {
       await startCharging({ stationId, chargerId: availableCharger._id });
       navigation.navigate('Main', { screen: 'Charging' });
     } catch (e) {
-      Alert.alert('Error', e.response?.data?.message || 'Could not start charging');
+      showAlert('Error', e.response?.data?.message || 'Could not start charging');
     } finally {
       setStarting(false);
     }

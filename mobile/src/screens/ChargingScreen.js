@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { getActiveCharging, stopCharging } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { spacing, typography } from '../theme';
 import { ChargingCard, BatteryProgress } from '../components/ChargingCard';
 import PrimaryButton from '../components/PrimaryButton';
@@ -18,6 +19,7 @@ function formatDuration(ms) {
 
 export default function ChargingScreen() {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const [session, setSession] = useState(null);
   const [loading, setLoading] = useState(true);
   const [stopping, setStopping] = useState(false);
@@ -60,7 +62,7 @@ export default function ChargingScreen() {
       await stopCharging();
       setSession(null);
     } catch (e) {
-      Alert.alert('Error', e.response?.data?.message || 'Could not stop charging');
+      showAlert('Error', e.response?.data?.message || 'Could not stop charging');
     } finally {
       setStopping(false);
     }

@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { getDashboard, getAdminDashboard } from '../api';
 import StatCard from '../components/StatCard';
 import PartnerFilter from '../components/PartnerFilter';
+import Alert from '../components/Alert';
 
 export default function Dashboard() {
   const { user } = useAuth();
@@ -30,7 +31,7 @@ export default function Dashboard() {
       </div>
     );
   }
-  if (error) return <div className="text-red-400 bg-red-500/10 rounded-card px-4 py-3">{error}</div>;
+  if (error) return <Alert type="error" message={error} onDismiss={() => setError('')} className="mb-4" />;
   if (!data) return null;
 
   return (

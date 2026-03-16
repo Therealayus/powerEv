@@ -3,6 +3,7 @@ import { useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { getMySessions, getAdminSessions } from '../api';
 import PartnerFilter from '../components/PartnerFilter';
+import Alert from '../components/Alert';
 
 export default function Sessions() {
   const { user } = useAuth();
@@ -40,7 +41,7 @@ export default function Sessions() {
       </div>
     );
   }
-  if (error) return <div className="text-red-400 bg-red-500/10 rounded-card px-4 py-3">{error}</div>;
+  if (error) return <Alert type="error" message={error} onDismiss={() => setError('')} className="mb-4" />;
 
   return (
     <div>

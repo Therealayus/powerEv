@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { sendVerificationOtp, verifyEmail } from '../api';
+import Alert from '../components/Alert';
 
 export default function VerifyEmail() {
   const [searchParams] = useSearchParams();
@@ -9,6 +10,7 @@ export default function VerifyEmail() {
   const [email, setEmail] = useState(emailFromUrl);
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [resendLoading, setResendLoading] = useState(false);
   const { completeVerification } = useAuth();
@@ -46,10 +48,11 @@ export default function VerifyEmail() {
       return;
     }
     setResendLoading(true);
+    setSuccess('');
     try {
       await sendVerificationOtp(email.trim());
       setError('');
-      alert('New code sent to your email');
+      setSuccess('New code sent to your email');
     } catch (err) {
       setError(err.response?.data?.message || err.message || 'Failed to send code');
     } finally {
@@ -64,11 +67,8 @@ export default function VerifyEmail() {
           <h1 className="text-2xl font-bold text-white mb-2">Verify your email</h1>
           <p className="text-slate-400 text-sm mb-6">Enter the 6-digit code sent to your email</p>
           <form onSubmit={handleVerify} className="space-y-4">
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2">
-                {error}
-              </div>
-            )}
+            {success && <Alert type="success" message={success} onDismiss={() => setSuccess('')} />}
+            {error && <Alert type="error" message={error} onDismiss={() => setError('')} />}
             <input
               type="email"
               placeholder="Email"

@@ -14,6 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import { launchImageLibrary } from 'react-native-image-picker';
 import { useTheme } from '../context/ThemeContext';
 import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 import { spacing, typography } from '../theme';
 import {
   getProfile,
@@ -26,6 +27,7 @@ const CONNECTOR_OPTIONS = ['', 'Bharat AC', 'Bharat DC', 'CCS 2', 'CHAdeMO', 'Ty
 
 export default function ProfileScreen({ navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const { user, refreshUser, logout } = useAuth();
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -74,7 +76,7 @@ export default function ProfileScreen({ navigation }) {
           setProfile(data);
           await refreshUser();
         } catch (e) {
-          Alert.alert('Upload failed', e.response?.data?.message || 'Could not upload photo');
+          showAlert('Upload failed', e.response?.data?.message || 'Could not upload photo');
         } finally {
           setUploadingPhoto(false);
         }
@@ -96,7 +98,7 @@ export default function ProfileScreen({ navigation }) {
               await deleteAccount();
               await logout();
             } catch (e) {
-              Alert.alert('Error', e.response?.data?.message || 'Could not delete account');
+              showAlert('Error', e.response?.data?.message || 'Could not delete account');
             }
           },
         },

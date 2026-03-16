@@ -232,9 +232,12 @@ Charging simulation: when a session is active, every 10s `unitsConsumed` and `co
 | backend/src/models/Otp.js | OTP records for email_verification, password_reset |
 | backend/src/services/emailService.js | Partner/user welcome, verification OTP, password reset OTP, session complete, partner notification |
 | mobile/src/context/AuthContext.js | user, token, login, register, completeVerification, logout, AsyncStorage |
+| mobile/src/context/AlertContext.js | AlertProvider, useAlert(); showAlert(title, message, variant?, onDismiss?) for themed in-app alerts |
+| mobile/src/components/AppAlert.js | Themed alert modal (error/success/info); used via useAlert() |
 | mobile/src/navigation/AppNavigator.js | Stack + tabs; auth stack: Login, Register, VerifyEmail, ForgotPassword, ResetPassword |
 | mobile/src/services/api.js | Axios, JWT; register, login, sendVerificationOtp, verifyEmail, forgotPassword, resetPassword, stations, charging, etc. |
 | mobile/src/theme/index.js | colors, spacing, typography, shadows |
+| web/src/components/Alert.jsx | In-app alert banner (type: error/success/info), optional onDismiss; matches app theme |
 | web/src/context/AuthContext.jsx | Partner auth, completeVerification, localStorage |
 | web/src/api.js | Axios, JWT; auth + partner endpoints; response interceptor clears token on 401 |
 | web/vite.config.js | Dev server, /api proxy |

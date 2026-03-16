@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from 'react';
-import { View, Text, StyleSheet, FlatList, Alert } from 'react-native';
+import { View, Text, StyleSheet, FlatList } from 'react-native';
 import { useFocusEffect } from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { getChargingHistory } from '../services/api';
 import { spacing, typography, shadows } from '../theme';
 import SectionHeader from '../components/SectionHeader';
@@ -30,6 +31,7 @@ function formatDuration(start, end) {
 
 export default function HistoryScreen() {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const [sessions, setSessions] = useState([]);
   const [loading, setLoading] = useState(true);
   const styles = useMemo(() => StyleSheet.create({
@@ -58,7 +60,7 @@ export default function HistoryScreen() {
       const { data } = await getChargingHistory();
       setSessions(data);
     } catch (e) {
-      Alert.alert('Error', 'Could not load history');
+      showAlert('Error', 'Could not load history');
     } finally {
       setLoading(false);
     }

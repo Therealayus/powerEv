@@ -5,19 +5,20 @@ import {
   TextInput,
   StyleSheet,
   TouchableOpacity,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { submitFeedback } from '../services/api';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function FeedbackScreen({ navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const [message, setMessage] = useState('');
   const [rating, setRating] = useState(0);
   const [sending, setSending] = useState(false);
@@ -53,16 +54,15 @@ export default function FeedbackScreen({ navigation }) {
   const handleSubmit = async () => {
     const trimmed = message.trim();
     if (!trimmed) {
-      Alert.alert('Message required', 'Please enter your feedback to help us improve.');
+      showAlert('Message required', 'Please enter your feedback to help us improve.', 'info');
       return;
     }
     setSending(true);
     try {
       await submitFeedback({ message: trimmed, rating: rating || undefined });
-      Alert.alert('Thank you', 'Your feedback has been sent. We use it to improve our services.');
-      navigation.goBack();
+      showAlert('Thank you', 'Your feedback has been sent. We use it to improve our services.', 'success', () => navigation.goBack());
     } catch (e) {
-      Alert.alert('Error', e.response?.data?.message || 'Could not send feedback');
+      showAlert('Error', e.response?.data?.message || 'Could not send feedback');
     } finally {
       setSending(false);
     }

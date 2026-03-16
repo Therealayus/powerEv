@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { resetPassword } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function ResetPasswordScreen({ route, navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const emailFromParams = route.params?.email || '';
   const [email, setEmail] = useState(emailFromParams);
   const [otp, setOtp] = useState('');
@@ -31,21 +33,19 @@ export default function ResetPasswordScreen({ route, navigation }) {
   const handleReset = async () => {
     const e = email.trim();
     if (!e || !otp.trim() || !newPassword) {
-      Alert.alert('Error', 'Fill email, code and new password');
+      showAlert('Error', 'Fill email, code and new password');
       return;
     }
     if (newPassword.length < 6) {
-      Alert.alert('Error', 'Password must be at least 6 characters');
+      showAlert('Error', 'Password must be at least 6 characters');
       return;
     }
     setLoading(true);
     try {
       await resetPassword(e, otp.trim(), newPassword);
-      Alert.alert('Success', 'Password reset. Sign in with your new password.', [
-        { text: 'OK', onPress: () => navigation.navigate('Login') },
-      ]);
+      showAlert('Success', 'Password reset. Sign in with your new password.', 'success', () => navigation.navigate('Login'));
     } catch (err) {
-      Alert.alert('Error', err.response?.data?.message || 'Reset failed');
+      showAlert('Error', err.response?.data?.message || 'Reset failed');
     } finally {
       setLoading(false);
     }

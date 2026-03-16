@@ -1,14 +1,16 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { forgotPassword } from '../services/api';
 import { useTheme } from '../context/ThemeContext';
+import { useAlert } from '../context/AlertContext';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function ForgotPasswordScreen({ navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const styles = useMemo(() => StyleSheet.create({
@@ -28,17 +30,20 @@ export default function ForgotPasswordScreen({ navigation }) {
   const handleSend = async () => {
     const e = email.trim();
     if (!e) {
-      Alert.alert('Error', 'Enter your email');
+      showAlert('Error', 'Enter your email');
       return;
     }
     setLoading(true);
     try {
       await forgotPassword(e);
-      Alert.alert('Check your email', 'If an account exists, a code has been sent. Enter it on the next screen.', [
-        { text: 'OK', onPress: () => navigation.navigate('ResetPassword', { email: e }) },
-      ]);
+      showAlert(
+        'Check your email',
+        'If an account exists, a code has been sent. Enter it on the next screen.',
+        'info',
+        () => navigation.navigate('ResetPassword', { email: e })
+      );
     } catch (err) {
-      Alert.alert('Error', err.response?.data?.message || 'Failed to send code');
+      showAlert('Error', err.response?.data?.message || 'Failed to send code');
     } finally {
       setLoading(false);
     }

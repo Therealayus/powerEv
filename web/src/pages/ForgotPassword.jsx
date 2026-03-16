@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { forgotPassword } from '../api';
+import Alert from '../components/Alert';
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState('');
@@ -33,11 +34,7 @@ export default function ForgotPassword() {
           <h1 className="text-2xl font-bold text-white mb-2">Forgot password?</h1>
           <p className="text-slate-400 text-sm mb-6">Enter your email and we'll send a reset code</p>
           <form onSubmit={handleSubmit} className="space-y-4">
-            {error && (
-              <div className="bg-red-500/10 border border-red-500/30 text-red-400 text-sm rounded-lg px-4 py-2">
-                {error}
-              </div>
-            )}
+            {error && <Alert type="error" message={error} onDismiss={() => setError('')} />}
             <input
               type="email"
               placeholder="Email"

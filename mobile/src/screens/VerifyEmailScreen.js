@@ -1,15 +1,17 @@
 import React, { useState, useMemo } from 'react';
-import { View, Text, TextInput, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, TextInput, StyleSheet, TouchableOpacity } from 'react-native';
 import LinearGradient from 'react-native-linear-gradient';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { sendVerificationOtp, verifyEmail } from '../services/api';
 import { useAuth } from '../context/AuthContext';
+import { useAlert } from '../context/AlertContext';
 import { useTheme } from '../context/ThemeContext';
 import { spacing, typography } from '../theme';
 import PrimaryButton from '../components/PrimaryButton';
 
 export default function VerifyEmailScreen({ route, navigation }) {
   const { colors } = useTheme();
+  const { showAlert } = useAlert();
   const emailFromParams = route.params?.email || '';
   const [email, setEmail] = useState(emailFromParams);
   const [otp, setOtp] = useState('');
@@ -35,7 +37,7 @@ export default function VerifyEmailScreen({ route, navigation }) {
   const handleVerify = async () => {
     const e = email.trim();
     if (!e || !otp.trim()) {
-      Alert.alert('Error', 'Enter email and 6-digit code');
+      showAlert('Error', 'Enter email and 6-digit code');
       return;
     }
     setLoading(true);
@@ -43,7 +45,7 @@ export default function VerifyEmailScreen({ route, navigation }) {
       const { data } = await verifyEmail(e, otp.trim());
       await completeVerification({ token: data.token, user: data.user });
     } catch (err) {
-      Alert.alert('Error', err.response?.data?.message || 'Invalid or expired code');
+      showAlert('Error', err.response?.data?.message || 'Invalid or expired code');
     } finally {
       setLoading(false);
     }
@@ -52,15 +54,15 @@ export default function VerifyEmailScreen({ route, navigation }) {
   const handleResend = async () => {
     const e = email.trim();
     if (!e) {
-      Alert.alert('Error', 'Enter your email');
+      showAlert('Error', 'Enter your email');
       return;
     }
     setResendLoading(true);
     try {
       await sendVerificationOtp(e);
-      Alert.alert('Sent', 'New code sent to your email');
+      showAlert('Sent', 'New code sent to your email', 'success');
     } catch (err) {
-      Alert.alert('Error', err.response?.data?.message || 'Failed to send code');
+      showAlert('Error', err.response?.data?.message || 'Failed to send code');
     } finally {
       setResendLoading(false);
     }
