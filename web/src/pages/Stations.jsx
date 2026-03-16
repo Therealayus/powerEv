@@ -122,7 +122,11 @@ export default function Stations() {
   };
 
   const handleReassign = async () => {
-    if (!reassignModal?.stationId || !reassignModal?.ownerId) return;
+    if (!reassignModal?.stationId) return;
+    if (!reassignModal?.ownerId) {
+      setError('Please select a partner');
+      return;
+    }
     setError('');
     try {
       await updateAdminStation(reassignModal.stationId, { ownerId: reassignModal.ownerId });
@@ -192,7 +196,7 @@ export default function Stations() {
               <div className="flex items-center gap-2">
                 {isAdmin && (
                   <button
-                    onClick={() => setReassignModal({ stationId: s._id, stationName: s.name, ownerId: s.ownerId?._id || s.ownerId })}
+                    onClick={() => setReassignModal({ stationId: s._id, stationName: s.name, ownerId: s.ownerId?._id || s.ownerId || (partners[0]?._id ?? '') })}
                     className="text-amber-400 hover:text-amber-300 hover:bg-amber-500/20 px-4 py-2 rounded-xl text-sm font-medium transition"
                   >
                     Reassign
@@ -323,10 +327,11 @@ export default function Stations() {
             <p className="text-slate-400 text-sm mb-4">{reassignModal.stationName}</p>
             <label className="block text-slate-400 text-sm mb-1">New partner</label>
             <select
-              value={reassignModal.ownerId}
+              value={reassignModal.ownerId ?? ''}
               onChange={(e) => setReassignModal((r) => ({ ...r, ownerId: e.target.value }))}
               className="w-full bg-background border border-border rounded-xl px-4 py-3 text-white focus:outline-none focus:ring-2 focus:ring-primary mb-4"
             >
+              <option value="">Select partner</option>
               {partners.map((p) => (
                 <option key={p._id} value={p._id}>{p.name || p.email}</option>
               ))}
@@ -334,7 +339,7 @@ export default function Stations() {
             <div className="flex gap-3">
               <button
                 type="button"
-                onClick={() => setReassignModal(null)}
+                onClick={() => { setReassignModal(null); setError(''); }}
                 className="flex-1 py-3 rounded-xl border border-border text-slate-400 hover:text-white transition"
               >
                 Cancel
